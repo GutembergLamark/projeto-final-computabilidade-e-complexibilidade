@@ -1,3 +1,5 @@
+# Inverte string binarias
+
 class TuringMachine:
     def __init__(self, tape_input, transitions, initial_state, accept_state, reject_state):
         self.tape = list(tape_input)  

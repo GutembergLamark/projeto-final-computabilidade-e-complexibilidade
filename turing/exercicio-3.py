@@ -1,3 +1,5 @@
+# Descriptografa strings
+
 class TuringMachine:
     def __init__(self, tape_input, transitions, initial_state, accept_state, reject_state):
         self.tape = list(tape_input)  
@@ -33,3 +35,51 @@ class TuringMachine:
             self.execute_step()
             
         return "".join(self.tape), self.current_state
+    
+def create_cesar_cipher_transitions(shift):
+    """Cria transições para descriptografar uma cifra de César com um deslocamento fixo."""
+    transitions = {}
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    
+    for i, letter in enumerate(alphabet):
+        decrypted_index = (i - shift) % len(alphabet)
+        decrypted_letter = alphabet[decrypted_index]
+        transitions[("q0", letter)] = ("q0", decrypted_letter, "R")  
+
+    
+    transitions[("q0", " ")] = ("q0", " ", "R")
+
+    
+    transitions[("q0", "_")] = ("q_accept", "_", "R")  
+
+    return transitions
+
+
+
+encrypted_text = "KHOOR ZRUOG"  
+tape_with_padding = encrypted_text + "_"  
+shift = 3  
+
+transitions = create_cesar_cipher_transitions(shift)
+initial_state = "q0"
+accept_state = "q_accept"
+reject_state = "q_reject"
+
+# Executa a Máquina de Turing
+turing_machine = TuringMachine(
+    tape_input=tape_with_padding,
+    transitions=transitions,
+    initial_state=initial_state,
+    accept_state=accept_state,
+    reject_state=reject_state,
+)
+final_tape, final_state = turing_machine.run()
+
+if final_state == accept_state:
+    decrypted_text = final_tape.strip()
+    print(f"Texto descriptografado: {decrypted_text}")
+    print(f"Estado final: {final_state}")
+else:
+    print("Erro na descriptografia.")
+    print(f"Estado final: {final_state}")

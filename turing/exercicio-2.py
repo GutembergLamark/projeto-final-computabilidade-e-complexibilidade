@@ -1,3 +1,5 @@
+# Valida Palindromos
+
 class TuringMachine:
     def __init__(self, tape_input, transitions, initial_state, accept_state, reject_state):
         self.tape = list(tape_input)  
@@ -36,21 +38,24 @@ class TuringMachine:
     
 input_tape = "10101"
 transitions = {
-    ("q0", "1"): ("q1", " ", "R"),
-    ("q0", "0"): ("q2", " ", "R"),
-    ("q0", " "): ("q_accept", " ", "R"),
+    # Estado q0: Procura o caractere à esquerda
+    ("q0", "1"): ("q1", " ", "R"),  
+    ("q0", "0"): ("q2", " ", "R"),  
+    ("q0", " "): ("q_accept", " ", "R"),  
 
-    ("q1", "1"): ("q1", "1", "R"),
-    ("q1", "0"): ("q1", "0", "R"),
-    ("q1", " "): ("q3", " ", "L"),
+    ("q1", "1"): ("q1", "1", "R"),  
+    ("q1", "0"): ("q1", "0", "R"),  
+    ("q1", " "): ("q3", " ", "L"),  
+    
+    ("q2", "1"): ("q2", "1", "R"),  
+    ("q2", "0"): ("q2", "0", "R"),  
+    ("q2", " "): ("q4", " ", "L"),  
 
-    ("q2", "1"): ("q2", "1", "R"),
-    ("q2", "0"): ("q2", "0", "R"),
-    ("q2", " "): ("q3", " ", "L"),
+    ("q3", "1"): ("q0", " ", "R"),  
+    ("q3", "0"): ("q_reject", "0", "R"),  
 
-    ("q3", "1"): ("q0", " ", "R"),
-    ("q3", "0"): ("q0", " ", "R"),
-    ("q3", " "): ("q_accept", " ", "R"),
+    ("q4", "0"): ("q0", " ", "R"),  
+    ("q4", "1"): ("q_reject", "1", "R"),  
 }
 
 initial_state = "q0"

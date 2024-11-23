@@ -1,3 +1,5 @@
+# Valida se existe um numero par de 0's
+
 class TuringMachine:
     def __init__(self, tape_input, transitions, initial_state, accept_state, reject_state):
         self.tape = list(tape_input)  
@@ -33,3 +35,31 @@ class TuringMachine:
             self.execute_step()
             
         return "".join(self.tape), self.current_state
+    
+input_tape = "1010001"
+
+transitions = {
+    ("q0", "0"): ("q1", "0", "R"),  
+    ("q0", "1"): ("q0", "1", "R"),  
+    ("q0", " "): ("q_accept", " ", "R"),  
+
+    ("q1", "0"): ("q0", "0", "R"),  
+    ("q1", "1"): ("q1", "1", "R"),  
+    ("q1", " "): ("q_reject", " ", "R"),  
+}
+
+initial_state = "q0"
+accept_state = "q_accept"
+reject_state = "q_reject"
+
+tape_with_padding = input_tape + " " * 10
+turing_machine = TuringMachine(
+    tape_input=tape_with_padding,
+    transitions=transitions,
+    initial_state=initial_state,
+    accept_state=accept_state,
+    reject_state=reject_state
+)
+final_tape, final_state = turing_machine.run()
+print("Resultado final na fita:", final_tape.strip())
+print("Estado final:", final_state)
